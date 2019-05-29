@@ -1,5 +1,5 @@
 **FREE
-CTL-OPT BNDDIR('PROPERTY') ACTGRP(*NEW);
+CTL-OPT BNDDIR('RPGPROP/PROPERTY') ACTGRP(*NEW);
 /INCLUDE property_h.rpgle
 DCL-S PropFile VARCHAR(1024) INZ('/home/brian/test.property');
 DCL-S Field VARCHAR(1024);
