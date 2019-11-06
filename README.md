@@ -1,6 +1,6 @@
 # RPG-Properties
 
-Easily read a .properties file in the IFS from an RPG program.  
+Easily read a .properties file in the IFS from an RPGLE program.  
 
 ### Installation 
 
