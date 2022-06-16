@@ -53,14 +53,13 @@ DCL-S NumProperties INT(10);
 //
 //------------------------------------------------------------------------------
 DCL-PROC LoadPropertyFile;
-
-DCL-PI *N IND;
-    PropertyFile VARCHAR(1024) VALUE;
-END-PI;
+    DCL-PI *N IND;
+        PropertyFile VARCHAR(1024) VALUE;
+    END-PI;
 
     DCL-S Buffer       CHAR(1024);
     DCL-S FileHandle   LIKE(pFile);
-    DCL-S Mode         VARCHAR(10) INZ('r');
+    DCL-S Mode         VARCHAR(20) INZ('r, o_ccsid=0');
     DCL-S RecordHandle POINTER;
     DCL-S Split        INT(10);
     DCL-S Success      IND INZ(*ON);
@@ -148,11 +147,10 @@ END-PROC;
 //
 //------------------------------------------------------------------------------
 DCL-PROC GetProperty EXPORT;
-
-DCL-PI *N VARCHAR(100);
-    PropertyFile VARCHAR(1024) VALUE;
-    PropertyKey  VARCHAR(100) VALUE;
-END-PI;
+    DCL-PI *N VARCHAR(100);
+        PropertyFile VARCHAR(1024) VALUE;
+        PropertyKey  VARCHAR(100) VALUE;
+    END-PI;
 
     DCL-S Index    INT(10);
     DCL-S LastFile VARCHAR(1024) STATIC;
