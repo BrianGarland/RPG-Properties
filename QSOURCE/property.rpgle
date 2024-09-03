@@ -155,7 +155,7 @@ DCL-PROC GetProperty EXPORT;
     DCL-S Index    INT(10);
     DCL-S LastFile VARCHAR(1024) STATIC;
 
-    IF PropertyFile <> LastFile;
+    IF PropertyFile <> LastFile OR NumProperties = 0;
         LoadPropertyFile(PropertyFile);
         LastFile = PropertyFile;
     ENDIF;
