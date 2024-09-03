@@ -152,12 +152,47 @@ DCL-PROC GetProperty EXPORT;
         PropertyKey  VARCHAR(100) VALUE;
     END-PI;
 
+    DCL-PR lstat INT(10) EXTPROC('lstat');                          
+        FileName  POINTER VALUE OPTIONS(*STRING);                   
+        StatusPtr POINTER VALUE;                                    
+    END-PR;                                                         
+                                                                    
+    DCL-DS st ALIGN QUALIFIED;                                      
+        mode      UNS(10);                                             
+        ino       UNS(10);                                            
+        nlink     UNS(5);                                             
+        uid       UNS(10);                                            
+        gid       UNS(10);                                            
+        size      INT(10);                                            
+        atime     INT(10);                                            
+        mtime     INT(10);                                            
+        ctime     INT(10);                                            
+        dev       UNS(10);                                            
+        blksize   UNS(10);                                            
+        allocsize UNS(10);                                          
+        objtype   CHAR(11);                                          
+        codepage  UNS(5);   
+        ccsid     UNS(5);                   
+        reserved  CHAR(128);                
+    END-DS;                                
+                                                                                            
     DCL-S Index    INT(10);
-    DCL-S LastFile VARCHAR(1024) STATIC;
+    DCL-S SaveFile VARCHAR(1024) STATIC;
+    DCL-S SaveSize       INT(10) STATIC;                  
+    DCL-S SaveTimeChange INT(10) STATIC;                  
+                                                          
+                                                          
+    lstat(PropertyFile:%ADDR(st));                        
+    IF PropertyFile <> SaveFile                           
+        OR NumProperties = 0                              
+        OR st.mtime <> SaveTimeChange                     
+        OR st.size <> SaveSize;                           
 
-    IF PropertyFile <> LastFile OR NumProperties = 0;
         LoadPropertyFile(PropertyFile);
-        LastFile = PropertyFile;
+        SaveFile = PropertyFile;
+        SaveTimeChange = st.mtime;     
+        SaveSize = st.size;                
+
     ENDIF;
 
     Index = %LOOKUP(%TRIM(PropertyKey):Properties(*).Key:1:NumProperties);
